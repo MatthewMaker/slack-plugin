@@ -1,4 +1,4 @@
-package jenkins.plugins.slack;
+package jenkins.plugins.slakk;
 
 import hudson.Extension;
 import hudson.Launcher;
@@ -18,9 +18,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 @SuppressWarnings({"unchecked"})
-public class SlackNotifier extends Notifier {
+public class SlakkNotifier extends Notifier {
 
-    private static final Logger logger = Logger.getLogger(SlackNotifier.class.getName());
+    private static final Logger logger = Logger.getLogger(SlakkNotifier.class.getName());
 
     private String teamDomain;
     private String authToken;
@@ -55,7 +55,7 @@ public class SlackNotifier extends Notifier {
 
 
     @DataBoundConstructor
-    public SlackNotifier(final String teamDomain, final String authToken, final String room, String buildServerUrl, final String sendAs) {
+    public SlakkNotifier(final String teamDomain, final String authToken, final String room, String buildServerUrl, final String sendAs) {
         super();
         this.teamDomain = teamDomain;
         this.authToken = authToken;
@@ -68,8 +68,8 @@ public class SlackNotifier extends Notifier {
         return BuildStepMonitor.BUILD;
     }
 
-    public SlackService newSlackService(final String room) {
-        return new StandardSlackService(getTeamDomain(), getAuthToken(), room == null ? getRoom() : room);
+    public SlakkService newSlakkService(final String room) {
+        return new StandardSlakkService(getTeamDomain(), getAuthToken(), room == null ? getRoom() : room);
     }
 
     @Override
@@ -114,27 +114,27 @@ public class SlackNotifier extends Notifier {
         }
 
         @Override
-        public SlackNotifier newInstance(StaplerRequest sr) {
-            if (teamDomain == null) teamDomain = sr.getParameter("slackTeamDomain");
-            if (token == null) token = sr.getParameter("slackToken");
-            if (buildServerUrl == null) buildServerUrl = sr.getParameter("slackBuildServerUrl");
-            if (room == null) room = sr.getParameter("slackRoom");
-            if (sendAs == null) sendAs = sr.getParameter("slackSendAs");
-            return new SlackNotifier(teamDomain, token, room, buildServerUrl, sendAs);
+        public SlakkNotifier newInstance(StaplerRequest sr) {
+            if (teamDomain == null) teamDomain = sr.getParameter("slakkTeamDomain");
+            if (token == null) token = sr.getParameter("slakkToken");
+            if (buildServerUrl == null) buildServerUrl = sr.getParameter("slakkBuildServerUrl");
+            if (room == null) room = sr.getParameter("slakkRoom");
+            if (sendAs == null) sendAs = sr.getParameter("slakkSendAs");
+            return new SlakkNotifier(teamDomain, token, room, buildServerUrl, sendAs);
         }
 
         @Override
         public boolean configure(StaplerRequest sr, JSONObject formData) throws FormException {
-            teamDomain = sr.getParameter("slackTeamDomain");
-            token = sr.getParameter("slackToken");
-            room = sr.getParameter("slackRoom");
-            buildServerUrl = sr.getParameter("slackBuildServerUrl");
-            sendAs = sr.getParameter("slackSendAs");
+            teamDomain = sr.getParameter("slakkTeamDomain");
+            token = sr.getParameter("slakkToken");
+            room = sr.getParameter("slakkRoom");
+            buildServerUrl = sr.getParameter("slakkBuildServerUrl");
+            sendAs = sr.getParameter("slakkSendAs");
             if (buildServerUrl != null && !buildServerUrl.endsWith("/")) {
                 buildServerUrl = buildServerUrl + "/";
             }
             try {
-                new SlackNotifier(teamDomain, token, room, buildServerUrl, sendAs);
+                new SlakkNotifier(teamDomain, token, room, buildServerUrl, sendAs);
             } catch (Exception e) {
                 throw new FormException("Failed to initialize notifier - check your global notifier configuration settings", e, "");
             }
@@ -144,11 +144,11 @@ public class SlackNotifier extends Notifier {
 
         @Override
         public String getDisplayName() {
-            return "Slack Notifications";
+            return "Slakk Notifications";
         }
     }
 
-    public static class SlackJobProperty extends hudson.model.JobProperty<AbstractProject<?, ?>> {
+    public static class SlakkJobProperty extends hudson.model.JobProperty<AbstractProject<?, ?>> {
         private String room;
         private boolean startNotification;
         private boolean notifySuccess;
@@ -160,7 +160,7 @@ public class SlackNotifier extends Notifier {
 
 
         @DataBoundConstructor
-        public SlackJobProperty(String room,
+        public SlakkJobProperty(String room,
                                   boolean startNotification,
                                   boolean notifyAborted,
                                   boolean notifyFailure,
@@ -198,9 +198,9 @@ public class SlackNotifier extends Notifier {
             if (startNotification) {
                 Map<Descriptor<Publisher>, Publisher> map = build.getProject().getPublishersList().toMap();
                 for (Publisher publisher : map.values()) {
-                    if (publisher instanceof SlackNotifier) {
+                    if (publisher instanceof SlakkNotifier) {
                         logger.info("Invoking Started...");
-                        new ActiveNotifier((SlackNotifier) publisher).started(build);
+                        new ActiveNotifier((SlakkNotifier) publisher).started(build);
                     }
                 }
             }
@@ -235,7 +235,7 @@ public class SlackNotifier extends Notifier {
         @Extension
         public static final class DescriptorImpl extends JobPropertyDescriptor {
             public String getDisplayName() {
-                return "Slack Notifications";
+                return "Slakk Notifications";
             }
 
             @Override
@@ -244,15 +244,15 @@ public class SlackNotifier extends Notifier {
             }
 
             @Override
-            public SlackJobProperty newInstance(StaplerRequest sr, JSONObject formData) throws hudson.model.Descriptor.FormException {
-                return new SlackJobProperty(sr.getParameter("slackProjectRoom"),
-                        sr.getParameter("slackStartNotification") != null,
-                        sr.getParameter("slackNotifyAborted") != null,
-                        sr.getParameter("slackNotifyFailure") != null,
-                        sr.getParameter("slackNotifyNotBuilt") != null,
-                        sr.getParameter("slackNotifySuccess") != null,
-                        sr.getParameter("slackNotifyUnstable") != null,
-                        sr.getParameter("slackNotifyBackToNormal") != null);
+            public SlakkJobProperty newInstance(StaplerRequest sr, JSONObject formData) throws hudson.model.Descriptor.FormException {
+                return new SlakkJobProperty(sr.getParameter("slakkProjectRoom"),
+                        sr.getParameter("slakkStartNotification") != null,
+                        sr.getParameter("slakkNotifyAborted") != null,
+                        sr.getParameter("slakkNotifyFailure") != null,
+                        sr.getParameter("slakkNotifyNotBuilt") != null,
+                        sr.getParameter("slakkNotifySuccess") != null,
+                        sr.getParameter("slakkNotifyUnstable") != null,
+                        sr.getParameter("slakkNotifyBackToNormal") != null);
             }
         }
     }

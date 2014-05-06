@@ -1,17 +1,17 @@
-package jenkins.plugins.slack;
+package jenkins.plugins.slakk;
 
-import jenkins.plugins.slack.StandardSlackService;
+import jenkins.plugins.slakk.StandardSlakkService;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StandardSlackServiceTest {
+public class StandardSlakkServiceTest {
 
     /**
      * Publish should generally not rethrow exceptions, or it will cause a build job to fail at end.
      */
     @Test
     public void publishWithBadHostShouldNotRethrowExceptions() {
-        StandardSlackService service = new StandardSlackService("foo", "token", "#general");
+        StandardSlakkService service = new StandardSlakkService("foo", "token", "#general");
         service.setHost("hostvaluethatwillcausepublishtofail");
         service.publish("message");
     }
@@ -21,7 +21,7 @@ public class StandardSlackServiceTest {
      */
     @Test
     public void invalidTeamDomainShouldFail() {
-        StandardSlackService service = new StandardSlackService("my", "token", "#general");
+        StandardSlakkService service = new StandardSlakkService("my", "token", "#general");
         service.publish("message");
     }
 
@@ -30,7 +30,7 @@ public class StandardSlackServiceTest {
      */
     @Test
     public void invalidTokenShouldFail() {
-        StandardSlackService service = new StandardSlackService("tinyspeck", "token", "#general");
+        StandardSlakkService service = new StandardSlakkService("tinyspeck", "token", "#general");
         service.publish("message");
     }
 }

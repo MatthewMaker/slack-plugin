@@ -17,12 +17,12 @@
         <version>1.447</version>
     </parent>
 
-	<artifactId>slack</artifactId>
+	<artifactId>slakk</artifactId>
 	<packaging>hpi</packaging>
 	<version>1.7-SNAPSHOT</version>
-	<name>Slack Notification Plugin</name>
-	<description>A Build status publisher that notifies channels on a Slack team</description>
-    <url>http://wiki.jenkins-ci.org/display/JENKINS/Slack+Plugin</url>
+	<name>Slakk Notification Plugin</name>
+	<description>A Build status publisher that notifies channels on a Slakk team</description>
+    <url>http://wiki.jenkins-ci.org/display/JENKINS/Slakk+Plugin</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,9 +37,9 @@
 	</licenses>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com/jenkinsci/slack-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/slack-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/slack-plugin</url>
+        <connection>scm:git:ssh://git@github.com/jenkinsci/slakk-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/slakk-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/slakk-plugin</url>
     </scm>
 
 	<dependencies>
